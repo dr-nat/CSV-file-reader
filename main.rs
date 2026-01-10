@@ -1,21 +1,34 @@
 use std::fs;
 use std::env;
+use std::error::Error;
 
-
-fn read_args() -> String {
+fn read_args() -> Result<String, Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
-    let first_argument = &args[1];
 
-    let file_content = fs::read_to_string(&first_argument)
-        .expect("invalid input");
+    if args.len() < 2 {
+        return Err("Error: No argument(file) provided".into());
+    }
+    
+    let file_name  = &args[1];
 
-    file_content
+    let content = fs::read_to_string(&file_name)?; 
+    
+    if content.trim().is_empty() {
+        return Err(format!("The {} file provided is empty", file_name).into());
+    } 
+
+    for record in content.lines() {
+        println!("{}", record);
+    }
+
+    Ok(content)
+
 }
 
 fn main() {
-    let argument = read_args();
-    
-    for record in argument.lines() {
-        println!("{}", record);
+
+    if let Err(e) = read_args() {
+        eprintln!("Error: {}", e);
+        std::process::exit(1);
     }
 }

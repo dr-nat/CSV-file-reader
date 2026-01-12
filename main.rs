@@ -1,8 +1,9 @@
-use std::fs;
+use std::fs::File;
 use std::env;
+use std::io::{BufRead, BufReader};
 use std::error::Error;
 
-fn read_args() -> Result<String, Box<dyn Error>> {
+fn read_args() -> Result<(), Box<dyn Error>> {
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -11,17 +12,18 @@ fn read_args() -> Result<String, Box<dyn Error>> {
     
     let file_name  = &args[1];
 
-    let content = fs::read_to_string(&file_name)?; 
+    let content = File::open(&file_name)?; 
     
-    if content.trim().is_empty() {
-        return Err(format!("The {} file provided is empty", file_name).into());
-    } 
+    let file_reader = BufReader::new(content);
 
-    for record in content.lines() {
+    for line in file_reader.lines() {
+
+        let record = line?;
+
         println!("{}", record);
     }
 
-    Ok(content)
+    Ok(())
 
 }
 

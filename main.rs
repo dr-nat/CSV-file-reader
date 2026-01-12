@@ -16,11 +16,19 @@ fn read_args() -> Result<(), Box<dyn Error>> {
     
     let file_reader = BufReader::new(content);
 
+    // outer loop: 
     for line in file_reader.lines() {
-
         let record = line?;
 
-        println!("{}", record);
+        if record.trim().is_empty() {
+            continue;
+        }
+
+        // inner loop:
+        for words in record.split(",") {
+
+            println!("{}", words);
+        }
     }
 
     Ok(())

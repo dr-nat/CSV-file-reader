@@ -1,44 +1,39 @@
-use std::fs::File;
 use std::env;
-use std::io::{BufRead, BufReader};
+use std::io::{ BufRead, BufReader};
 use std::error::Error;
+use std::fs::File;
 
-fn read_args() -> Result<(), Box<dyn Error>> {
+
+fn read_args() -> Result<(), Box<dyn Error>>{
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
-        return Err("Error: No argument(file) provided".into());
+        return Err(format!("No arguments(filepaths) were provided").into());
     }
+    let first_arg = &args[1];
     
-    let file_name  = &args[1];
-
-    let content = File::open(&file_name)?; 
+    let file = File::open(first_arg)?;
     
-    let file_reader = BufReader::new(content);
+    let file_reader = BufReader::new(file);
 
-    // outer loop: 
-    for line in file_reader.lines() {
-        let record = line?;
+    for lines in file_reader.lines() {
+        let record = lines?;
 
         if record.trim().is_empty() {
             continue;
         }
-
-        // inner loop:
-        for words in record.split(",") {
-
-            println!("{}", words);
-        }
+        println!("{}", record);
     }
 
     Ok(())
 
+
 }
 
-fn main() {
 
+
+fn main() {
     if let Err(e) = read_args() {
         eprintln!("Error: {}", e);
-        std::process::exit(1);
     }
 }

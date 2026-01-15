@@ -16,13 +16,23 @@ fn read_args() -> Result<(), Box<dyn Error>>{
     
     let file_reader = BufReader::new(file);
 
-    for lines in file_reader.lines() {
+    let mut rows = file_reader.lines();
+
+    let header_row = &rows.next().ok_or("CSV file has no Header row")??;
+
+    let header: Vec<&str> = header_row.split(",").collect();
+    println!("{:?}", header);
+
+
+    for lines in rows {
         let record = lines?;
 
         if record.trim().is_empty() {
             continue;
         }
-        println!("{}", record);
+
+        let fields: Vec<&str> = record.split(",").collect();
+        println!("{:?}", fields);
     }
 
     Ok(())

@@ -1,0 +1,10 @@
+id,full_name,age,email,address,bio
+1,John Doe,28,john.doe@example.com,123 Maple St,A software engineer who loves "Rust".
+2,Jane Smith,32,jane.s@example.com,"Boston, MA",An artist and traveler.
+3,Robert "Bob" Brown,45,bob45@example.com,789 Oak Ave,"A veteran, father, and a frequent traveler."
+4,Alice Johnson,24,alice.j@test.io,"Seattle, WA","Loves hiking.
+Enjoys the outdoors.
+Has a cat named 'Cargo'."
+5,Charlie Kelly,30,birdlaw@philly.com,543 Paddy's Pub,"Specialist in 'Bird Law', often found in sewers."
+6,Diana Prince,1000,diana@themyscira.gov,1 Paradise Island,A warrior princess with a golden lasso.
+7,Edward Nigma,35,riddle@gotham.np,"Riddle St, Apt 2",Likes to ask: "When is a door not a door?"

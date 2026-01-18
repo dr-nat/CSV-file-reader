@@ -1,0 +1,5 @@
+Hey my name is nathaniel
+i created this file to check if 
+my csv reader can detect if this isnt a csv reader, nothing much nothing less
+
+so lets try it, lets go!

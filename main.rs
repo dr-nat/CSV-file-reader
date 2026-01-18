@@ -10,12 +10,36 @@ struct CsvRows {
 }
 
 impl CsvRows {
+    fn num_of_rows(&self) -> i32 {
+        self.rows.len()
+    }
+
+    fn num_of_columns(&self) -> i32 {
+        self.headers.len()
+
+    }
+
+    fn is_csv_empty(&self) -> bool {
+        if self.header.is_empty() && self.rows.is_empty() {
+            true
+        } else {
+            false
+        }
+    }
+
+    fn get_rows(&self, index: i32) {
+
+    }
+
+    fn get_column(&self) {
+
+    }
     
 }
 
 
 
-fn read_args() -> Result<(), Box<dyn Error>>{
+fn read_args() -> Result<CsvRows, Box<dyn Error>>{
     let args: Vec<String> = env::args().collect();
 
     if args.len() < 2 {
@@ -57,13 +81,10 @@ fn read_args() -> Result<(), Box<dyn Error>>{
         }
     }
     
-    let csv_rows = CsvRows {
+    Ok(CsvRows {
         header: header,
         rows: rows,
-    };
-
-    Ok(())
-
+    })
 
 }
 

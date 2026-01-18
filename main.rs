@@ -10,12 +10,12 @@ struct CsvRows {
 }
 
 impl CsvRows {
-    fn num_of_rows(&self) -> i32 {
+    fn num_of_rows(&self) -> usize {
         self.rows.len()
     }
 
-    fn num_of_columns(&self) -> i32 {
-        self.headers.len()
+    fn num_of_columns(&self) -> usize {
+        self.header.len()
 
     }
 
@@ -27,12 +27,16 @@ impl CsvRows {
         }
     }
 
-    fn get_rows(&self, index: i32) {
-
+    fn get_rows(&self, index: usize) -> Option<&Vec<String>> {
+       self.rows.get(index) 
     }
 
-    fn get_column(&self) {
+    fn get_column(&self, index: usize) -> Option<&String>{
+        self.header.get(index)
+    }
 
+    fn get_fields(&self, record: usize, fields: usize) -> Option<&String> {
+        self.rows.get(record)?.get(fields)
     }
     
 }

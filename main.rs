@@ -95,7 +95,25 @@ fn read_args() -> Result<CsvRows, Box<dyn Error>>{
 
 
 fn main() {
-    if let Err(e) = read_args() {
+    let Ok(csv_data) = read_args().map_err(|e| { 
         eprintln!("Error: {}", e);
-    }
+        e
+    }) else {
+        return;
+    };
+
+    let row_count = &csv_data.num_of_rows();
+
+    let column_count = &csv_data.num_of_columns();
+
+    let rows = &csv_data.get_rows(4);
+
+    let columns = &csv_data.get_column(1);
+
+    let fields = &csv_data.get_fields(3, 5);
+
+    let empty = &csv_data.is_csv_empty();
+
+
+    println!("{:?}, {:?}, {:?}, {:?}, {:?}, {:?}", row_count, column_count, rows, columns, fields, empty);
 }

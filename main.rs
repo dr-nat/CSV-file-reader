@@ -27,16 +27,24 @@ impl CsvRows {
         }
     }
 
-    fn get_rows(&self, index: usize) -> Option<&Vec<String>> {
+    fn get_rows(&self, index: usize) -> Result<&Vec<String>, String> {
        self.rows.get(index) 
+            .ok_or(format!("Error: row index {} is out of bounds", index))
     }
 
-    fn get_column(&self, index: usize) -> Option<&String>{
-        self.header.get(index)
+    fn get_column(&self, index: usize) -> Result<&String, String>{
+        self.header.get(index) 
+            .ok_or(format!("Error: column index {} is out of bounds", index))
     }
 
-    fn get_fields(&self, record: usize, fields: usize) -> Option<&String> {
-        self.rows.get(record)?.get(fields)
+    fn get_fields(&self, row: usize, col: usize) -> Result<&String, String> {
+        match self.rows.get(row) {
+            Some(vec_row) => match vec_row.get(col) {
+                Some(value) => Ok(value),
+                None => Err(format!("Error: column index {} is out of bounds", col)),
+            }
+            None => Err(format!("Error: row index {} is out of bounds", row)),
+        }
     }
     
 }
@@ -92,8 +100,6 @@ fn read_args() -> Result<CsvRows, Box<dyn Error>>{
 
 }
 
-
-
 fn main() {
     let Ok(csv_data) = read_args().map_err(|e| { 
         eprintln!("Error: {}", e);
@@ -106,14 +112,14 @@ fn main() {
 
     let column_count = &csv_data.num_of_columns();
 
-    let rows = &csv_data.get_rows(4);
+    let rows_value = &csv_data.get_rows(0);
 
-    let columns = &csv_data.get_column(1);
+    let columns = &csv_data.get_column(0);
 
-    let fields = &csv_data.get_fields(3, 5);
+    let fields = &csv_data.get_fields(1, 2);
 
     let empty = &csv_data.is_csv_empty();
 
 
-    println!("{:?}, {:?}, {:?}, {:?}, {:?}, {:?}", row_count, column_count, rows, columns, fields, empty);
-}
+    println!("\n{:?}, \n\n{:?}, \n\n{:?}, \n\n{:?}, \n\n{:?}, \n\n{:?}", row_count, column_count, fields, empty, rows_value, columns);
+    }

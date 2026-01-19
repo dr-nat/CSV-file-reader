@@ -1,0 +1,10 @@
+id,name,occupation,location,bio
+1,John Doe,Software Engineer,Chicago,Likes Rust.
+2,"Smith, Jane",Artist,"New York, NY",A traveler.
+3,"Robert ""Bob"" Brown",Plumber,Ohio,"Enjoys ""classic"" cars."
+4,Alice Johnson,Data Scientist,Seattle,"Loves hiking.
+Enjoys the outdoors.
+Has a cat."
+5,Charlie,Baker,,
+6,"Double Quotes","","London",""
+7,Empty Row,,,

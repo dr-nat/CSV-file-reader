@@ -51,9 +51,11 @@ impl CsvRows {
 
 
 
+    // Accepting arguments from the command line.
+
 fn read_args() -> Result<CsvRows, Box<dyn Error>>{
     let args: Vec<String> = env::args().collect();
-
+    
     if args.len() < 2 {
         return Err(format!("No arguments(filepaths) were provided").into());
     }
@@ -63,8 +65,11 @@ fn read_args() -> Result<CsvRows, Box<dyn Error>>{
     
     let file_reader = BufReader::new(file);
 
+    // Creating an iterator, using the .line() 
     let mut line = file_reader.lines();
 
+    // we use .next to skip the first value in the vector and then iteration should start from the next value.
+    // .next returns an optionand a result nested in it, ? cannot handle the returned value, so ok_or is used 
     let header_row = &line.next().ok_or("CSV file has no Header row")??;
 
     let header: Vec<String> = header_row
@@ -73,6 +78,7 @@ fn read_args() -> Result<CsvRows, Box<dyn Error>>{
         .collect();
 
 
+    //we use double vectors to handle rows and columns, outer vec are rows and inner vec columns.
     let mut rows: Vec<Vec<String>> = Vec::new();
 
     for lines in line {

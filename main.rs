@@ -76,20 +76,27 @@ fn read_args() -> Result<CsvRows, Box<dyn Error>>{
     let mut rows: Vec<Vec<String>> = Vec::new();
 
     for lines in line {
-        let record = lines?;
+        match lines {
+            Err(e) => {
+                eprintln!("Error reading a line from the file: {}", e);
+                continue;
+            }
+            Ok(record) => {
+                if record.trim().is_empty() {
+                continue;
+                }
 
-        if record.trim().is_empty() {
-            continue;
-        }
+                let fields: Vec<String> = record
+                    .split(",")
+                    .map(|f| f.trim().to_string())
+                    .collect();
 
-        let fields: Vec<String> = record
-            .split(",")
-            .map(|f| f.trim().to_string())
-            .collect();
-
-        if &fields.len() == &header.len() {
-            rows.push(fields); }  else {
-            break;
+                if &fields.len() == &header.len() {
+                    rows.push(fields); 
+                } else {
+                    eprintln!("Skipping this row: it had {} columns but header has {}", fields.len(), header.len());
+                }
+            }
         }
     }
     
